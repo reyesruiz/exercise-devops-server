@@ -2,6 +2,10 @@
   "name": "server",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=8.x",
+    "yarn": ">=1.7.x"
+  },
   "dependencies": {
     "cors": "2.8.4",
     "dotenv": "^6.0.0",
