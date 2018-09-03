@@ -19,7 +19,7 @@ pipeline {
 						"cd /opt/node_server/ ; \
 						pkill node ; \
 						sleep 10 ; \
-						rm -rf /opt/node_server/server/*"'
+						rm -rf /opt/node_server/server/ ; mkdir /opt/node_server/server/"'
 					sh 'scp -o StrictHostKeyChecking=no  index.js centos@foobar.digitalruiz.com:/opt/node_server/server/index.js'
 					sh 'scp -o StrictHostKeyChecking=no  .env centos@foobar.digitalruiz.com:/opt/node_server/server/.env'
 					sh 'scp -o StrictHostKeyChecking=no -r node_modules/ centos@foobar.digitalruiz.com:/opt/node_server/server/'	
