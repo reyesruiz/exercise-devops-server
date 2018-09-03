@@ -25,7 +25,7 @@ pipeline {
 					sh 'ssh -o StrictHostKeyChecking=no -l centos foobar.digitalruiz.com \
 						 "nohup /usr/bin/http-server -p 3000 /opt/node_server/client/ > /opt/node_server/client/log.out 2> /opt/node_server/client/log.err < /dev/null &"'
 					sh 'ssh -o StrictHostKeyChecking=no -l centos foobar.digitalruiz.com \
-						nohup /usr/bin/node /opt/node_server/server/index.js > /opt/node_server/server/log.out 2> /opt/node_server/server/log.err <dev/null &"'
+						"nohup /usr/bin/node /opt/node_server/server/index.js > /opt/node_server/server/log.out 2> /opt/node_server/server/log.err <dev/null &"'
 				}
 			}
 		}
