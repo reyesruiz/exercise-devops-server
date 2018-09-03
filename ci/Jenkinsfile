@@ -10,16 +10,6 @@ pipeline {
 				sh 'apk add --no-cache openssh'
 				sh 'npm install -g yarn'
 				sh 'yarn install --production'
-				sshagent(credentials: ['lightsail']) {
-					sh 'ssh -o StrictHostKeyChecking=no -l centos foobar.digitalruiz.com \
-						"cd /opt/node_server/ ; \
-						pkill node ; \
-						sleep 10 ; \
-						rm -rf /opt/node_server/server/*'
-					sh 'scp -o StrictHostKeyChecking=no index.js centos@foobar.digitalruiz.com:/opt/node_server/server/index.js'
-					sh 'ssh -o StrictHostKeyChecking=no -l centos foobar.digitalruiz.com \
-						nohup /usr/bin/node /opt/node_server/server/index.js > /opt/node_server/server/log.out 2> /opt/node_server/server/log.err < /dev/null &"'
-				}
 			}
 		}
 		stage('Deploy') {
@@ -29,10 +19,12 @@ pipeline {
 						"cd /opt/node_server/ ; \
 						pkill node ; \
 						sleep 10 ; \
-						rm -rf /opt/node_server/client/*'
-					sh 'scp -o StrictHostKeyChecking=no -r build/* centos@foobar.digitalruiz.com:/opt/node_server/client'
+						rm -rf /opt/node_server/server/*"'
+					sh 'scp -o StrictHostKeyChecking=no -r index.js centos@foobar.digitalruiz.com:/opt/node_server/server/index.js'
 					sh 'ssh -o StrictHostKeyChecking=no -l centos foobar.digitalruiz.com \
-						 nohup /usr/bin/http-server -p 3000 /opt/node_server/client/ > /opt/node_server/client/log.out 2> /opt/node_server/client/log.err < /dev/null &"'
+						 "nohup /usr/bin/http-server -p 3000 /opt/node_server/client/ > /opt/node_server/client/log.out 2> /opt/node_server/client/log.err < /dev/null & ; \
+						nohup /usr/bin/node /opt/node_server/server/index.js > /opt/node_server/server/log.out 2> /opt/node_server/server/log.err <dev/null &"'
+				}
 			}
 		}
 	}
